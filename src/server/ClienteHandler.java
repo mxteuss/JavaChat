@@ -30,8 +30,11 @@ public class ClienteHandler extends Thread{
                 if (x.startsWith("/entrar")){
                 salaAtual = x.split(" ")[1];
                 salasService.entrarSala(salaAtual, saida);
+                } else if (x.startsWith("/listar")) {
+                    salasService.listarSalas(socket);
                 } else if (salaAtual == null) {
-                    saida.println("Entre em uma sala primeiro. Use /entrar <sala>");
+                    saida.println("Entre em uma sala primeiro. Use /entrar <sala>.");
+                    saida.println("Use '/listar' para ver todas as salas.");
                 }
                 else {
                     salasService.enviarParaSala(salaAtual, x);

@@ -1,10 +1,9 @@
 package service;
 
+import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.net.Socket;
+import java.util.*;
 
 public class SalasService {
 
@@ -23,16 +22,18 @@ public class SalasService {
 
     }
 
-    public void enviarParaSala(String nomeSala, String mensagem){
+    public void enviarParaSala(String nomeSala, String mensagem) {
         List<PrintWriter> clientes = salas.get(nomeSala);
-        if (clientes != null){
-            for (PrintWriter cliente: clientes){
+        if (clientes != null) {
+            for (PrintWriter cliente : clientes) {
                 cliente.println(mensagem);
             }
         }
     }
 
-    public void listarSalas(){
-        System.out.println(salas.values());
+    public void listarSalas(Socket clienteSocket) throws IOException {
+        PrintWriter cliente = new PrintWriter(clienteSocket.getOutputStream(), true);
+        salas.forEach((key,value) -> cliente.println(key));
+        System.out.println("Usuário usou /listar");
     }
 }
